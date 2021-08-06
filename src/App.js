@@ -1,61 +1,113 @@
-import React from 'react';
-import MaterialTable from 'material-table';
-function App() {
-  const columnas = [
-    {
-      title: 'Name',
-      field: 'name',
-    },
-    {
-      title: 'Address',
-      field: 'address',
-    },
-    {
-      title: 'Postcode',
-      field: 'postcode',
-    },
-    {
-      title: 'Rating',
-      field: 'rating',     
-    },
-    {
-      title: 'Food',
-      fleld: 'food',
-      type: 'numeric',
-    }
-  ];
-  const data = [
-    { name: 'CN Chinese', address: '228 City Road', postcode: '3JH', rating: 5, food: 'Chinese' },
-    { name: '007 Takeaway', address: '6 Drummond Street', postcode: '1HY', rating: 6, food: 'Pizza' },
-    { name: '042 Restaurant & Bar', address: '885 High Road Leytonstone', postcode: '1HR', rating: 3, food: 'African' },
-    { name: '1 2 3 Chinese', address: 'Unit 4 Spencer House', postcode: '3DS', rating: 4.5, food: 'Pizza' },
-    { name: '042 Restaurant & Bar', address: '228 City Road', postcode: '1HY', rating: 6, food: 'Chinese' },
-    
-  ];
+import { FaCaretRight } from 'react-icons/fa';
+import 'antd/dist/antd.css';
+import { Tag, Space , Table, Button} from 'antd';
 
-  return (
-    <div>
-    <MaterialTable
-      columns={columnas}
-      data={data}
-      actions={[
-        {
-          icon:'edit',
-          tooltip: 'Edit Name',
-          onClick: (event, rowData)=>alert('Are you sure want to edit all name:'+rowData.name)
-        },
-        {
-          icon:'delete',
-          tooltip: 'Delete Name',
-          onClick: (event, rowData)=>window.confirm('Are you sure want to delete all name:'+rowData.name+'?')
-        }
-      ]}
-      options={{
-        actionsColumnIndex: -1
-      }}
-      />
-    </div>
-  );
-}
+
+function App() {
+
+	const data = [
+		{
+		  key: '1',
+		  name: 'John Brown',
+		  age: 32,
+		  address: 'New York No. 1 Lake Park',
+		  tags: ['NUMEROVERBE'],
+		},
+		{
+		  key: '2',
+		  name: 'Jim Green',
+		  age: 42,
+		  address: 'London No. 1 Lake Park',
+		  tags: ['USER'],
+		},
+		{
+		  key: '3',
+		  name: 'Joe Black',
+		  age: 32,
+		  address: 'Sidney No. 1 Lake Park',
+		  tags: ['ADMINISTRATOR'],
+		},
+	  ];
+	const columns = [
+		{
+		  title: 'Name',
+		  dataIndex: 'name',
+		  key: 'name',
+		  sorter: (a,b) => a.name -b.name,
+		  render: text => <a>{text}</a>
+		},
+		{
+		  title: 'Age',
+		  dataIndex: 'age',
+		  key: 'age',
+		  sorter: (a,b) => a.age -b.age
+		},
+		{
+			title: 'Address',
+			dataIndex: 'address',
+			key: 'address',
+			sorter: (a,b) => a.address -b.address
+		  },
+	
+		{
+		  title: 'Tags',
+		  key: 'tags',
+		  dataIndex: 'tags',
+		  sorter: (a,b) => a.address -b.address,
+		  render: tags => (
+			<>
+			  {tags.map(tag => {
+				let color = tag.length > 5 ? 'red' : 'green';
+				if (tag === 'user') {
+				  color = 'volcano';
+				}
+				return (
+				  <Tag color={color} key={tag}>
+					{tag.toUpperCase()}
+				  </Tag>
+				);
+			  })}
+			</>
+		  ),
+		},
+		{
+		  title: 'Action',
+		  key: 'action',
+      dataIndex: 'action',
+	  sorter: (a,b) => a.action -b.action,
+      render: () => (
+        <>
+      <Button size= "small" type="danger">
+        Attivo
+      </Button>
+	  
+      </>		
+		  ),
+		},
+		{
+			title:'',
+			key:'',
+			dataIndex:'',
+		render: () => (
+			<>
+			<Button size= "big" type= "primary">
+         <FaCaretRight/>
+		 </Button>
+			</>
+		)
+		}
+		
+	
+	  ];
+	  
+	  
+
+	  return (
+		<div className="App">
+				<Table dataSource={data} columns={columns} />
+		</div>
+	  
+	);
+};
 
 export default App;
