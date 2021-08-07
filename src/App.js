@@ -1,33 +1,34 @@
+import React, { useState,useEffect} from 'react';
 import { FaCaretRight } from 'react-icons/fa';
 import 'antd/dist/antd.css';
-import { Tag, Space , Table, Button} from 'antd';
+import { Tag, Space , Table, Button, Input, Card} from 'antd';
+
+const myData = [
+	{
+	  key: '1',
+	  name: 'John Brown',
+	  age: 32,
+	  address: 'New York No. 1 Lake Park',
+	  tags: ['NUMEROVERBE'],
+	},
+	{
+	  key: '2',
+	  name: 'Jim Green',
+	  age: 42,
+	  address: 'London No. 1 Lake Park',
+	  tags: ['USER'],
+	},
+	{
+	  key: '3',
+	  name: 'Joe Black',
+	  age: 32,
+	  address: 'Sidney No. 1 Lake Park',
+	  tags: ['ADMINISTRATOR'],
+	},
+  ];
 
 
 function App() {
-
-	const data = [
-		{
-		  key: '1',
-		  name: 'John Brown',
-		  age: 32,
-		  address: 'New York No. 1 Lake Park',
-		  tags: ['NUMEROVERBE'],
-		},
-		{
-		  key: '2',
-		  name: 'Jim Green',
-		  age: 42,
-		  address: 'London No. 1 Lake Park',
-		  tags: ['USER'],
-		},
-		{
-		  key: '3',
-		  name: 'Joe Black',
-		  age: 32,
-		  address: 'Sidney No. 1 Lake Park',
-		  tags: ['ADMINISTRATOR'],
-		},
-	  ];
 	const columns = [
 		{
 		  title: 'Name',
@@ -100,11 +101,31 @@ function App() {
 	
 	  ];
 	  
-	  
+	  const [data, setData] = useState();
+	  useEffect(() => {
+		  setData(myData)
+	  }, []);
+
+	  function onChangeHandler(event) {
+		  let text = String(event.target.value).toLowerCase();
+
+		  if (text === "") {
+			  setData(myData);
+		  } else {
+			  const filteredData = myData.filter(
+				  (x) => String(x.name).toLowerCase().indexOf(text) > -1
+			  );
+			  setData(filteredData);
+		  }
+	  }
 
 	  return (
 		<div className="App">
+		<Card title="Data Table">
+		<Input onChange={onChangeHandler} placeholoder="Search" />
 				<Table dataSource={data} columns={columns} />
+		
+				</Card>
 		</div>
 	  
 	);
